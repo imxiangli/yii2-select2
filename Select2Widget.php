@@ -7,8 +7,9 @@
  * Time: 17:12
  */
 
-namespace imxiangli\select2;
+namespace backend\widgets;
 
+use imxiangli\select2\Select2Asset;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
@@ -32,10 +33,12 @@ class Select2Widget extends InputWidget
 	public $data = null;
 	public $minimumInputLength = 0;
 	public $static = false;
-    public $language = 'zh-CN';
+	public $language = 'zh-CN';
 
 	/** @var JsExpression */
 	public $eventSelect = null;
+	/** @var JsExpression */
+	public $eventOpening = null;
 
 	public function run()
 	{
@@ -67,6 +70,10 @@ class Select2Widget extends InputWidget
 		if ($this->eventSelect instanceof JsExpression) {
 			$eventJsSelect = $this->eventSelect->expression;
 		}
+        $eventJsOpening = '';
+        if ($this->eventOpening instanceof JsExpression) {
+            $eventJsOpening = $this->eventOpening->expression;
+        }
 
 		if ($this->static) {
 			$script = "$(function(){
@@ -81,7 +88,7 @@ class Select2Widget extends InputWidget
 			$data = '';
 			if ($this->serverUrl !== null) {
 				$data = "ajax: {
-					url: '" . Url::to($this->serverUrl) . "',
+					url: function(){return getServerUrl()},
 					dataType: 'json',
 					delay: 250,
 					data: function (params) {
@@ -105,6 +112,11 @@ class Select2Widget extends InputWidget
 				$data = 'data: ' . json_encode($this->data) . ',';
 			}
 			$script = "$(function(){
+			var serverUrl = '" . Url::to($this->serverUrl) . "';
+			function getServerUrl(){
+			    return serverUrl;
+			}
+			
 			$('#{$this->options['id']}').select2({
 				language: 'zh-CN',
 				{$placeholder}
@@ -121,6 +133,8 @@ class Select2Widget extends InputWidget
 				}
 			}).on('select2:select', function(env){
 				{$eventJsSelect}
+			}).on('select2:opening', function(env){
+			    {$eventJsOpening}
 			});
 		});";
 		}
