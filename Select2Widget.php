@@ -7,7 +7,7 @@
  * Time: 17:12
  */
 
-namespace backend\widgets;
+namespace imxiangli\select2
 
 use imxiangli\select2\Select2Asset;
 use yii\helpers\Html;
