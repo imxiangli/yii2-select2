@@ -7,9 +7,8 @@
  * Time: 17:12
  */
 
-namespace imxiangli\select2
+namespace imxiangli\select2;
 
-use imxiangli\select2\Select2Asset;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
