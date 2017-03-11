@@ -98,8 +98,13 @@ class Select2Widget extends InputWidget
 					},
 					processResults: function (data, params) {
 					  params.page = params.page || 1;
+					  var list = data.{$this->itemsName};
+					  if(params.page <= 1)
+					  {
+						list.unshift({{$this->nameField}: '{$this->placeholder}', id: '{$this->placeholderId}'});
+					  }
 					  return {
-						results: data.{$this->itemsName},
+						results: list,
 						pagination: {
 						  more: params.page < data.{$this->pageCountField}
 						}
