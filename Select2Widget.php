@@ -33,6 +33,7 @@ class Select2Widget extends InputWidget
 	public $minimumInputLength = 0;
 	public $static = false;
 	public $language = 'zh-CN';
+	public $width = '95px';
 
 	/** @var JsExpression */
 	public $eventSelect = null;
@@ -78,7 +79,8 @@ class Select2Widget extends InputWidget
 			$script = "$(function(){
 					$('#{$this->options['id']}').select2({
 						{$placeholder}
-						language: 'zh-CN'
+						language: 'zh-CN',
+						width: '{$this->width}'
 					}).on('select2:select', function(env){
 						{$eventJsSelect}
 					});
@@ -127,6 +129,7 @@ class Select2Widget extends InputWidget
 			 	{$data}
 				escapeMarkup: function (markup) { return markup; },
 			 	minimumInputLength: {$this->minimumInputLength},
+				width: '{$this->width}',
 				templateResult: function (repo) {
 					if (repo.loading) return '{$this->loading}';
 					var markup = repo.{$this->nameField};
