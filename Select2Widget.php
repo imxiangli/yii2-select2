@@ -52,7 +52,7 @@ class Select2Widget extends InputWidget
 
 	protected function registerClientScript()
 	{
-		$width = (null !== $this->width) ? ('width: ' . $this->width . ',') : '';
+		$width = (null !== $this->width) ? ('width: "' . $this->width . '",') : '';
 		Select2Asset::register($this->view)->js[] = 'js/i18n/' . $this->language . '.js';
 		$placeholder = null;
 		if (null !== $this->placeholder) {
