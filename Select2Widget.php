@@ -33,7 +33,7 @@ class Select2Widget extends InputWidget
 	public $minimumInputLength = 0;
 	public $static = false;
 	public $language = 'zh-CN';
-	public $width = '95px';
+	public $width = null;
 
 	/** @var JsExpression */
 	public $eventSelect = null;
@@ -52,6 +52,7 @@ class Select2Widget extends InputWidget
 
 	protected function registerClientScript()
 	{
+		$width = (null !== $this->width) ? ('width: ' . $this->width . ',') : '';
 		Select2Asset::register($this->view)->js[] = 'js/i18n/' . $this->language . '.js';
 		$placeholder = null;
 		if (null !== $this->placeholder) {
@@ -79,8 +80,8 @@ class Select2Widget extends InputWidget
 			$script = "$(function(){
 					$('#{$this->options['id']}').select2({
 						{$placeholder}
-						language: 'zh-CN',
-						width: '{$this->width}'
+						{$width}
+						language: 'zh-CN'
 					}).on('select2:select', function(env){
 						{$eventJsSelect}
 					});
@@ -129,7 +130,7 @@ class Select2Widget extends InputWidget
 			 	{$data}
 				escapeMarkup: function (markup) { return markup; },
 			 	minimumInputLength: {$this->minimumInputLength},
-				width: '{$this->width}',
+				{$width}
 				templateResult: function (repo) {
 					if (repo.loading) return '{$this->loading}';
 					var markup = repo.{$this->nameField};
